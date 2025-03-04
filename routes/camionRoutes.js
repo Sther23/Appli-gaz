@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Camion = require('../models/Camion'); // Modèle de camion
+const authMiddleware = require('../middlewares/authMiddleware'); // Import du middleware d'authentification
 
 // Route pour obtenir tous les camions
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const camions = await Camion.find();
     res.status(200).json(camions);
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // Route pour obtenir un camion par ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const camion = await Camion.findById(req.params.id);
     if (!camion) return res.status(404).send('Camion non trouvé');
@@ -24,7 +25,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route pour ajouter un nouveau camion
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
   const { immatriculation, chauffeurId } = req.body;
   try {
     const newCamion = new Camion({ immatriculation, chauffeurId });
@@ -36,7 +37,7 @@ router.post('/', async (req, res) => {
 });
 
 // Route pour mettre à jour un camion
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const updatedCamion = await Camion.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedCamion) return res.status(404).send('Camion non trouvé');
@@ -47,7 +48,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Route pour supprimer un camion
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const deletedCamion = await Camion.findByIdAndDelete(req.params.id);
     if (!deletedCamion) return res.status(404).send('Camion non trouvé');

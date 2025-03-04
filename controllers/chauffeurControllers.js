@@ -27,6 +27,14 @@ exports.getChauffeurById = async (req, res) => {
 // Créer un nouveau chauffeur
 exports.createChauffeur = async (req, res) => {
   const { nom, prenom, email, telephone, salaire, utilisateur } = req.body;
+
+  // Vérifier si un chauffeur avec le même email existe déjà
+  const existingChauffeur = await Chauffeur.findOne({ email });
+  if (existingChauffeur) {
+    return res.status(400).json({ message: 'Email déjà utilisé par un autre chauffeur' });
+  }
+
+  // Créer le nouveau chauffeur si l'email est valide
   try {
     const newChauffeur = new Chauffeur({ nom, prenom, email, telephone, salaire, utilisateur });
     await newChauffeur.save();
@@ -36,6 +44,7 @@ exports.createChauffeur = async (req, res) => {
     res.status(400).json({ message: 'Erreur lors de la création du chauffeur', error: err });
   }
 };
+
 
 // Mettre à jour un chauffeur
 exports.updateChauffeur = async (req, res) => {

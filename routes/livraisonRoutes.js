@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Livraison = require('../models/Livraison'); // Modèle de livraison
+const authMiddleware = require('../middlewares/authMiddleware'); // Import du middleware d'authentification
 
 // Route pour obtenir toutes les livraisons
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const livraisons = await Livraison.find();
     res.status(200).json(livraisons);
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // Route pour obtenir une livraison par ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const livraison = await Livraison.findById(req.params.id);
     if (!livraison) return res.status(404).send('Livraison non trouvée');
@@ -24,7 +25,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route pour ajouter une nouvelle livraison
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
   const { date, camionId, chauffeurId, bouteillesDepart, bouteillesRetour, consignes, salaireCalculé } = req.body;
   try {
     const newLivraison = new Livraison({
@@ -44,7 +45,7 @@ router.post('/', async (req, res) => {
 });
 
 // Route pour mettre à jour une livraison
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const updatedLivraison = await Livraison.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedLivraison) return res.status(404).send('Livraison non trouvée');
@@ -55,7 +56,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Route pour supprimer une livraison
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
   try {
     const deletedLivraison = await Livraison.findByIdAndDelete(req.params.id);
     if (!deletedLivraison) return res.status(404).send('Livraison non trouvée');
