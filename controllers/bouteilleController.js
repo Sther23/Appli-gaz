@@ -18,9 +18,11 @@ const getAllBouteilles = async (req, res) => {
     const bouteilles = await Bouteille.find();
     res.status(200).json(bouteilles);
   } catch (err) {
+    console.error('Error fetching bottles:', err); // Ajouter un log détaillé
     res.status(500).json({ message: 'Erreur lors de la récupération des bouteilles', error: err });
   }
 };
+
 
 // Récupérer une bouteille par ID
 const getBouteilleById = async (req, res) => {

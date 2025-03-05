@@ -4,7 +4,7 @@ const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware'); // Import du middleware d'authentification
 
 // Récupérer tous les chauffeurs
-router.get('/', authMiddleware, chauffeurController.getAllChauffeurs); 
+router.get('/', chauffeurController.getAllChauffeurs); 
 
 // Récupérer un chauffeur par son ID
 router.get('/:id', authMiddleware, chauffeurController.getChauffeurById);
