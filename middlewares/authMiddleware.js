@@ -1,19 +1,18 @@
 const jwt = require('jsonwebtoken');
+
 module.exports = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    console.log('Token reçu:', token);  // log pour voir si tu reçois bien un token
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '7d' });
+    
 
     if (!token) {
-        console.log('Aucun token reçu');
-        return res.status(401).json({ message: 'Non autorisé' });
+        return res.status(401).json({ message: 'Accès interdit, token manquant' });
     }
 
     try {
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('Utilisateur déchiffré:', req.user);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;  // injecter l’utilisateur décodé dans req.user
         next();
     } catch (err) {
-        console.log('Erreur JWT:', err);
-        res.status(401).json({ message: 'Token invalide' });
-    }next();
+        return res.status(401).json({ message: 'Token invalide', error: err.message });
+    }
 };

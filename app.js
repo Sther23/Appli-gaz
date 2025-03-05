@@ -26,7 +26,7 @@ app.use('/api/camions', camionRoutes);
 app.use('/api/bouteilles', bouteilleRoutes);
 app.use('/api/livraisons', livraisonRoutes);
 app.use('/api/chauffeurs', chauffeurRoutes);
-app.use('/api/auth', authRoutes);  // <-- Ajouter ici pour le login
+app.use('/api/auth', authRoutes); 
 
 // Lancer le serveur
 const port = process.env.PORT || 5000;

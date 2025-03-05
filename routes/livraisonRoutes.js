@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Livraison = require('../models/Livraison'); // Modèle de livraison
-const authMiddleware = require('../middlewares/authMiddleware'); // Import du middleware d'authentification
+const Livraison = require('../models/Livraison');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 // Route pour obtenir toutes les livraisons
-router.get('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
+router.get('/', authMiddleware, async (req, res) => {
   try {
     const livraisons = await Livraison.find();
     res.status(200).json(livraisons);
@@ -14,7 +14,7 @@ router.get('/', authMiddleware, async (req, res) => {  // Protection avec le mid
 });
 
 // Route pour obtenir une livraison par ID
-router.get('/:id', authMiddleware, async (req, res) => {  // Protection avec le middleware
+router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const livraison = await Livraison.findById(req.params.id);
     if (!livraison) return res.status(404).send('Livraison non trouvée');
@@ -25,7 +25,7 @@ router.get('/:id', authMiddleware, async (req, res) => {  // Protection avec le 
 });
 
 // Route pour ajouter une nouvelle livraison
-router.post('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
+router.post('/', authMiddleware, async (req, res) => {
   const { date, camionId, chauffeurId, bouteillesDepart, bouteillesRetour, consignes, salaireCalculé } = req.body;
   try {
     const newLivraison = new Livraison({
