@@ -4,10 +4,13 @@ const User = require('../models/User'); // Assure-toi que le modèle User est bi
 const authMiddleware = require('../middlewares/authMiddleware'); // Import du middleware d'authentification
 
 // Route pour obtenir tous les utilisateurs
-router.get('/', authMiddleware, async (req, res) => {  // Protection avec le middleware
+router.get('/',  async (req, res) => {  // Protection avec le middleware
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    res.status(200).json({
+      msg:'user recuperer avec succes',
+      users
+    });
   } catch (err) {
     res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs', error: err });
   }

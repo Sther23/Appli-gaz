@@ -6,7 +6,7 @@ const chauffeurSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   telephone: { type: String, required: true },
   salaire: { type: Number, required: true },
-  utilisateur: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence à l'utilisateur
+  utilisateur: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, 
   dateEmbauche: { type: Date, default: Date.now },
 });
 
